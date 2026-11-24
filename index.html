@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GamaMaster Shop | Ofertas Gamer e Setup</title>
+  <meta name="description" content="Vitrine de ofertas de Hardware, Gabinetes, Periféricos e Setup Gamer selecionados para você." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <style>
+    :root {
+      --page: #ffffff;
+      --card: #f8fafc;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #475569;
+      --neon: #16a34a;
+      --neon-soft: rgba(22, 163, 74, 0.12);
+    }
+    .dark {
+      --page: #050505;
+      --card: #111111;
+      --border: #1f2937;
+      --text: #ffffff;
+      --muted: #9ca3af;
+      --neon: #39ff14;
+      --neon-soft: rgba(57, 255, 20, 0.12);
+    }
+    body { background: var(--page); color: var(--text); transition: background .3s, color .3s; }
+    .modal-bg { background: rgba(0, 0, 0, .75); backdrop-filter: blur(4px); }
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            page: 'var(--page)',
+            card: 'var(--card)',
+            border: 'var(--border)',
+            text: 'var(--text)',
+            muted: 'var(--muted)',
+            neon: 'var(--neon)',
+          },
+          fontFamily: { display: ['"Orbitron"', 'sans-serif'] }
+        }
+      }
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="min-h-screen font-sans antialiased">
+
+  <!-- ================= CABEÇALHO FIXO ================= -->
+  <header class="sticky top-0 z-40 border-b border-border bg-page/90 backdrop-blur-md">
+    <div class="mx-auto max-w-7xl px-4 py-3 flex flex-col gap-3">
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 shrink-0">
+          <div class="h-9 w-9 rounded-lg bg-neon/10 border border-neon flex items-center justify-center">
+            <i data-lucide="cpu" class="h-5 w-5 text-neon"></i>
+          </div>
+          <span class="font-display text-lg font-extrabold tracking-wide">
+            GAMA<span class="text-neon">MASTER</span>
+          </span>
+        </div>
+
+        <div class="relative flex-1 max-w-xl mx-auto">
+          <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted"></i>
+          <input id="busca" type="search" placeholder="Buscar gabinete, placa de vídeo, teclado..."
+            oninput="termoBusca = this.value.trim().toLowerCase(); renderGrid();"
+            class="w-full rounded-xl border border-border bg-card py-2.5 pl-10 pr-4 text-sm text-text placeholder:text-muted outline-none focus:border-neon focus:ring-1 focus:ring-neon" />
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <button id="btnTema" onclick="alternarTema()" aria-label="Alternar tema claro/escuro"
+            class="h-10 w-10 rounded-xl border border-border bg-card flex items-center justify-center hover:border-neon transition">
+            <i id="iconeTema" data-lucide="sun" class="h-5 w-5 text-neon"></i>
+          </button>
+
+          <button onclick="abrirModal('modalApp')"
+            class="h-10 px-4 rounded-xl border border-neon text-neon font-semibold text-sm hover:bg-neon-soft transition flex items-center gap-2">
+            <i data-lucide="smartphone" class="h-4 w-4"></i> App
+          </button>
+        </div>
+      </div>
+
+      <nav id="filtros" class="flex gap-2 overflow-x-auto scrollbar-hide pb-1"></nav>
+    </div>
+  </header>
+
+  <!-- ================= VITRINE ================= -->
+  <main class="mx-auto max-w-7xl px-4 py-8">
+    <div class="mb-6">
+      <h1 class="font-display text-2xl sm:text-3xl font-extrabold">
+        Ofertas <span class="text-neon">Gamer</span> Selecionadas
+      </h1>
+      <p class="text-muted mt-1 text-sm">Hardware, gabinetes, periféricos e setup para elevar o seu jogo.</p>
+    </div>
+
+    <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+  </main>
+
+  <!-- ================= RODAPÉ ================= -->
+  <footer class="mt-16 border-t border-border bg-card">
+    <div class="mx-auto max-w-7xl px-4 py-10 grid gap-8 md:grid-cols-2">
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <i data-lucide="cpu" class="h-5 w-5 text-neon"></i>
+          <span class="font-display font-extrabold">GAMA<span class="text-neon">MASTER</span> SHOP</span>
+        </div>
+        <p class="text-sm text-muted leading-relaxed">
+          Curadoria de produtos para gamers e entusiastas de setup. Os preços e disponibilidade são
+          informados diretamente pela Amazon no momento da compra.
+        </p>
+        <div class="flex gap-4 mt-4 text-sm">
+          <button onclick="abrirLegal('privacidade')" class="text-muted hover:text-neon underline underline-offset-4">Política de Privacidade</button>
+          <button onclick="abrirLegal('termos')" class="text-muted hover:text-neon underline underline-offset-4">Termos de Uso</button>
+        </div>
+      </div>
+
+      <div class="rounded-xl border border-neon/60 bg-neon-soft p-5">
+        <p class="text-sm leading-relaxed">
+          <strong class="text-neon">Aviso de Transparência:</strong>
+          A GamaMaster Shop participa do Programa de Associados da Amazon. Como associado da Amazon,
+          eu ganho com compras qualificadas, sem nenhum custo adicional para você.
+        </p>
+      </div>
+    </div>
+    <div class="border-t border-border py-4 text-center text-xs text-muted">
+      © <span id="ano"></span> GamaMaster Shop. Todos os direitos reservados. Amazon e o logotipo Amazon são marcas da Amazon.com, Inc. ou de suas afiliadas.
+    </div>
+  </footer>
+
+  <!-- ================= MODAL: DETALHES DO PRODUTO ================= -->
+  <div id="modalDetalhe" class="hidden fixed inset-0 z-50 modal-bg p-4 items-center justify-center">
+    <div class="relative w-full max-w-4xl max-h-[92vh] overflow-y-auto rounded-2xl border border-border bg-page shadow-2xl">
+      <button onclick="fecharModal('modalDetalhe')" aria-label="Fechar"
+        class="absolute right-4 top-4 z-10 h-9 w-9 rounded-full bg-card border border-border flex items-center justify-center hover:border-neon">
+        <i data-lucide="x" class="h-4 w-4"></i>
+      </button>
+      <div id="conteudoDetalhe" class="p-6 sm:p-8"></div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: APP ================= -->
+  <div id="modalApp" class="hidden fixed inset-0 z-50 modal-bg p-4 items-center justify-center">
+    <div class="relative w-full max-w-md rounded-2xl border border-neon bg-page p-8 text-center shadow-2xl">
+      <button onclick="fecharModal('modalApp')" aria-label="Fechar"
+        class="absolute right-4 top-4 h-9 w-9 rounded-full bg-card border border-border flex items-center justify-center hover:border-neon">
+        <i data-lucide="x" class="h-4 w-4"></i>
+      </button>
+
+      <div class="mx-auto mb-4 h-16 w-16 rounded-2xl bg-neon-soft border border-neon flex items-center justify-center">
+        <i data-lucide="shopping-cart" class="h-8 w-8 text-neon"></i>
+      </div>
+      <h2 class="font-display text-xl font-extrabold">Compre com segurança</h2>
+      <p class="text-muted text-sm mt-2 mb-6">
+        Você será direcionado à Amazon para ver preço, frete e disponibilidade atualizados.
+      </p>
+
+      <!--
+        COLE AQUI O SEU LINK DE AFILIADO PRINCIPAL (botão "App").
+        Ele já está configurado na constante LINK_APP_AFILIADO, no script abaixo.
+      -->
+      <a id="linkAppAfiliado" href="#" target="_blank" rel="nofollow sponsored"
+        class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#f97316] hover:bg-[#ea580c] text-white font-bold py-3.5 transition shadow-lg shadow-orange-500/20">
+        <i data-lucide="external-link" class="h-5 w-5"></i> Comprar na Amazon
+      </a>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: INSTRUÇÕES DE CADASTRO ================= -->
+  <div id="modalInstrucoes" class="hidden fixed inset-0 z-50 modal-bg p-4 items-center justify-center">
+    <div class="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl border border-border bg-page p-6 sm:p-8">
+      <button onclick="fecharModal('modalInstrucoes')" aria-label="Fechar"
+        class="absolute right-4 top-4 h-9 w-9 rounded-full bg-card border border-border flex items-center justify-center hover:border-neon">
+        <i data-lucide="x" class="h-4 w-4"></i>
+      </button>
+      <h2 class="font-display text-xl font-extrabold mb-4">Como cadastrar produtos</h2>
+      <ol class="space-y-4 text-sm text-muted leading-relaxed">
+        <li><strong class="text-text">1.</strong> Envie no chat os dois links: o <em>link original do produto na Amazon</em> e o <em>seu link de afiliado</em>.</li>
+        <li><strong class="text-text">2.</strong> Peça para criar a página/card do produto. Os dados técnicos e fotos serão extraídos do link original.</li>
+        <li><strong class="text-text">3.</strong> No arquivo <code class="text-neon">index.html</code>, localize a linha <code class="text-neon">const produtos = []</code>.</li>
+        <li><strong class="text-text">4.</strong> Adicione o objeto do produto logo abaixo dessa linha, usando o modelo comentado no código.</li>
+        <li><strong class="text-text">5.</strong> Salve e atualize a página. O produto aparecerá automaticamente na vitrine.</li>
+      </ol>
+      <div class="mt-6 rounded-xl border border-border bg-card p-4 text-xs text-muted">
+        Nunca inclua preços fixos. Use apenas o link de afiliado no campo <code class="text-neon">linkAfiliado</code>.
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: LEGAL ================= -->
+  <div id="modalLegal" class="hidden fixed inset-0 z-50 modal-bg p-4 items-center justify-center">
+    <div class="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border border-border bg-page p-6 sm:p-8">
+      <button onclick="fecharModal('modalLegal')" aria-label="Fechar"
+        class="absolute right-4 top-4 h-9 w-9 rounded-full bg-card border border-border flex items-center justify-center hover:border-neon">
+        <i data-lucide="x" class="h-4 w-4"></i>
+      </button>
+      <div id="conteudoLegal" class="text-sm text-muted leading-relaxed space-y-3"></div>
+    </div>
+  </div>
+
+<script>
+  /* =====================================================================
+     CONFIGURAÇÕES GERAIS
+     ===================================================================== */
+  // Link de afiliado do botão "App"
+  const LINK_APP_AFILIADO = "https://link.amazon/B0iP2ZnDB";
+
+  const CATEGORIAS = ["Todos", "Gabinetes", "Hardware", "Periféricos", "Monitores"];
+
+  /* =====================================================================
+     CATÁLOGO DE PRODUTOS
+     ===================================================================== */
+  const produtos = [];
+
+  produtos.push({
+    id: 1,
+    titulo: "Teclado Gamer AOC GK116 Membrana com Fio 102 Teclas RGB Anti-Ghosting",
+    categoria: "Periféricos",
+    destaque: "",                        // Badge opcional, ex.: "Oferta" ("" para nenhum)
+    imagem: "https://i.ibb.co/s9w7nf2W/Captura-de-tela-2026-11-24-180024.png",
+    resumo: "Teclado de membrana com 102 teclas, retroiluminação RGB arco-íris, anti-ghosting de 26 teclas e design ergonômico para jogos e escritório.",
+    descricao: "O teclado AOC GK116 oferece a sensação de um teclado mecânico, com feedback tátil confortável e resposta rápida. Possui retroiluminação arco-íris nas 102 teclas e tecnologia anti-ghosting de 26 teclas, permitindo pressionar várias teclas ao mesmo tempo. Layout em inglês (US), design ergonômico para longas sessões de jogo ou trabalho e compatibilidade com PCs, desktops e notebooks com Windows e Mac.",
+    especificacoes: {
+      "Marca": "AOC",
+      "Modelo": "GK116",
+      "Dispositivos compatíveis": "PC",
+      "Tipo": "Membrana, multifuncional e multimídia",
+      "Número de teclas": "102",
+      "Layout": "Inglês (US)",
+      "Iluminação": "RGB arco-íris (retroiluminado)",
+      "Anti-ghosting": "26 teclas",
+      "Conexão": "Com fio (cabo USB)",
+      "Sistemas compatíveis": "Windows e Mac",
+      "Indicado para": "Jogos e escritório"
+    },
+    pros: [
+      "Retroiluminação arco-íris nas 102 teclas",
+      "Anti-ghosting de 26 teclas",
+      "Feedback tátil confortável, com sensação de teclado mecânico",
+      "Design ergonômico para uso prolongado",
+      "Compatível com Windows e Mac"
+    ],
+    contras: [],
+    midia: [
+      { tipo: "imagem", url: "https://i.ibb.co/s9w7nf2W/Captura-de-tela-2026-11-24-180024.png" },
+      { tipo: "imagem", url: "https://i.ibb.co/DD9gSNxR/Captura-de-tela-2026-11-24-180058.png" },
+      { tipo: "imagem", url: "https://i.ibb.co/ZzCt8SMx/Captura-de-tela-2026-11-24-180132.png" }
+      // Vídeo YouTube (embed): { tipo: "video", url: "https://www.youtube.com/embed/ID" }
+    ],
+    avaliacoes: [],   // Sem avaliações: a seção de avaliações fica oculta
+    linkAfiliado: "https://link.amazon/B0iP2ZnDB"
+  });
+
+  produtos.push({
+    id: 2,
+    titulo: "Gabinete Gamer Bluecase Pure BG-064 Micro-ATX Mini-ITX Lateral em Vidro USB 3.0 Sem Fonte",
+    categoria: "Gabinetes",
+    destaque: "",
+    imagem: "https://i.ibb.co/BVCkm8k0/Captura-de-tela-2026-11-24-181201.png",
+    resumo: "Mini-torre compacta com lateral em vidro temperado, compatível com placas Micro-ATX e Mini-ITX. Disponível nas cores branca e preta.",
+    descricao: "Gabinete mini-torre da BlueCase para montagem de PC gamer com baixo custo e boa estética. Compatível com placas-mãe Micro-ATX e Mini-ITX, possui painel lateral de vidro temperado e espaço para múltiplas configurações de fans e coolers. Não acompanha fonte de alimentação. Disponível nas cores branca e preta.",
+    especificacoes: {
+      "Marca": "BlueCase",
+      "Modelo": "BG-064WBX (branco)",
+      "Tipo de estojo": "Mini-Tower",
+      "Compatibilidade da placa-mãe": "Micro-ATX e Mini-ITX",
+      "Painel lateral": "Vidro temperado",
+      "Portas frontais": "USB 3.0",
+      "Fonte": "Não acompanha",
+      "Cores": "Branco e preto",
+      "Indicado para": "Jogos"
+    },
+    pros: [
+      "Lateral em vidro temperado",
+      "Compatível com Micro-ATX e Mini-ITX",
+      "Opções branca e preta",
+      "Espaço para múltiplas configurações de fans e coolers",
+      "Preço de baixo custo"
+    ],
+    contras: [
+      "Não acompanha fonte de alimentação"
+    ],
+    midia: [
+      { tipo: "imagem", url: "https://i.ibb.co/BVCkm8k0/Captura-de-tela-2026-11-24-181201.png" },
+      { tipo: "imagem", url: "https://i.ibb.co/wZ5tBKvW/Captura-de-tela-2026-11-24-181311.png" }
+    ],
+    avaliacoes: [],
+    linkAfiliado: "https://link.amazon/B02IrjtMj"
+  });
+
+  /*
+  ─── MODELO DE PRODUTO (copie, descomente e preencha) ───────────────────
+
+  produtos.push({
+    id: 2,
+    titulo: "Nome completo do produto",
+    categoria: "Gabinetes",          // Gabinetes | Hardware | Periféricos | Monitores
+    destaque: "Mais vendido",         // Badge exibido no card ("" para nenhum)
+    nota: 4.7,                        // Opcional: se omitir, as estrelas não aparecem
+    totalAvaliacoes: 1243,            // Opcional
+    imagem: "https://m.media-amazon.com/images/I/XXXXXXX.jpg",
+    resumo: "Resumo curto de 1 ou 2 linhas sobre o produto.",
+    descricao: "Descrição detalhada do produto.",
+    especificacoes: {
+      "Dimensões": "450 x 200 x 430 mm",
+      "Material": "Aço SPCC e vidro temperado"
+    },
+    pros: ["Excelente ventilação"],
+    contras: ["Não acompanha ventoinhas"],
+    midia: [
+      { tipo: "imagem", url: "https://m.media-amazon.com/images/I/XXXXXXX.jpg" }
+    ],
+    avaliacoes: [],                   // Opcional: { autor, nota, data, comentario }
+    linkAfiliado: "https://www.amazon.com.br/dp/XXXXXXXXXX?tag=SEUID-20"
+  });
+  ───────────────────────────────────────────────────────────────────────
+  */
+
+  /* =====================================================================
+     ESTADO E UTILIDADES
+     ===================================================================== */
+  let categoriaAtual = "Todos";
+  let termoBusca = "";
+  let galeriaAtual = [];
+
+  const escapar = (t = "") => String(t).replace(/[&<>"']/g, c =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+  const estrelas = (nota = 0) => {
+    const n = Math.max(0, Math.min(5, Math.round(Number(nota) || 0)));
+    return `<span class="text-neon tracking-tight" aria-label="Nota ${nota} de 5">${"★".repeat(n)}<span class="text-border">${"★".repeat(5 - n)}</span></span>`;
+  };
+
+  const refreshIcons = () => { if (window.lucide) lucide.createIcons(); };
+
+  /* =====================================================================
+     TEMA CLARO / ESCURO (padrão: escuro)
+     ===================================================================== */
+  function aplicarTema(tema) {
+    document.documentElement.classList.toggle("dark", tema === "dark");
+    try { localStorage.setItem("gama-tema", tema); } catch (e) {}
+    document.getElementById("iconeTema").setAttribute("data-lucide", tema === "dark" ? "sun" : "moon");
+    refreshIcons();
+  }
+  function alternarTema() {
+    const atual = document.documentElement.classList.contains("dark") ? "dark" : "light";
+    aplicarTema(atual === "dark" ? "light" : "dark");
+  }
+
+  /* =====================================================================
+     FILTROS E GRADE
+     ===================================================================== */
+  function renderFiltros() {
+    document.getElementById("filtros").innerHTML = CATEGORIAS.map(c => {
+      const ativo = c === categoriaAtual;
+      return `<button onclick="setCategoria('${c}')"
+        class="shrink-0 px-4 py-1.5 rounded-full text-sm font-medium border transition
+        ${ativo ? "bg-neon border-neon text-black" : "border-border bg-card text-muted hover:border-neon hover:text-text"}">
+        ${c}</button>`;
+    }).join("");
+  }
+
+  function setCategoria(c) {
+    categoriaAtual = c;
+    renderFiltros();
+    renderGrid();
+  }
+
+  function produtosFiltrados() {
+    // Mais recentes primeiro (maior id = mais recente)
+    return produtos.slice().sort((a, b) => b.id - a.id).filter(p => {
+      const okCat = categoriaAtual === "Todos" || p.categoria === categoriaAtual;
+      const okBusca = !termoBusca ||
+        p.titulo.toLowerCase().includes(termoBusca) ||
+        (p.resumo || "").toLowerCase().includes(termoBusca);
+      return okCat && okBusca;
+    });
+  }
+
+  function renderGrid() {
+    const grid = document.getElementById("grid");
+
+    if (produtos.length === 0) {
+      grid.className = "flex";
+      grid.innerHTML = `
+        <div class="col-span-full flex flex-col items-center text-center py-20 px-6 rounded-2xl border border-dashed border-border bg-card">
+          <div class="h-16 w-16 rounded-2xl bg-neon-soft border border-neon flex items-center justify-center mb-5">
+            <i data-lucide="clock" class="h-8 w-8 text-neon"></i>
+          </div>
+          <h2 class="font-display text-xl font-extrabold">Novas ofertas chegando em breve</h2>
+          <p class="text-muted text-sm mt-2 max-w-md">
+            Estamos selecionando os melhores equipamentos de hardware, gabinetes, periféricos e setup gamer para você.
+          </p>
+          <button onclick="abrirModal('modalInstrucoes')"
+            class="mt-6 text-xs text-muted underline underline-offset-4 hover:text-neon transition">
+            Instruções de Cadastro
+          </button>
+        </div>`;
+      refreshIcons();
+      return;
+    }
+
+    grid.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6";
+    const lista = produtosFiltrados();
+
+    if (lista.length === 0) {
+      grid.innerHTML = `<p class="col-span-full text-center text-muted py-16">Nenhum produto encontrado para essa busca.</p>`;
+      return;
+    }
+
+    grid.innerHTML = lista.map(renderCard).join("");
+    refreshIcons();
+  }
+
+  function renderCard(p) {
+    const temNota = Number(p.nota) > 0;
+    return `
+      <article onclick="abrirDetalhe(${p.id})"
+        class="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card cursor-pointer transition duration-300 hover:-translate-y-1 hover:border-neon hover:shadow-[0_0_25px_-8px_var(--neon)]">
+
+        ${p.destaque ? `<span class="absolute left-3 top-3 z-10 rounded-full bg-neon px-3 py-1 text-xs font-bold text-black">${escapar(p.destaque)}</span>` : ""}
+
+        <div class="flex h-56 items-center justify-center bg-white p-4">
+          <img src="${escapar(p.imagem)}" alt="${escapar(p.titulo)}" loading="lazy"
+            class="max-h-full max-w-full object-contain transition duration-300 group-hover:scale-105" />
+        </div>
+
+        <div class="flex flex-1 flex-col gap-2 p-5">
+          <span class="text-xs font-semibold uppercase tracking-wider text-neon">${escapar(p.categoria)}</span>
+          <h3 class="font-semibold leading-snug line-clamp-2">${escapar(p.titulo)}</h3>
+          ${temNota ? `
+          <div class="flex items-center gap-2 text-sm">
+            ${estrelas(p.nota)}
+            <span class="text-muted">(${(p.totalAvaliacoes || 0).toLocaleString("pt-BR")})</span>
+          </div>` : ""}
+          <p class="text-sm text-muted line-clamp-2">${escapar(p.resumo)}</p>
+
+          <span class="mt-auto pt-3 inline-flex items-center justify-center gap-2 rounded-xl bg-[#f97316] px-4 py-2.5 text-sm font-bold text-white">
+            <i data-lucide="tag" class="h-4 w-4"></i> Ver Preço na Amazon
+          </span>
+        </div>
+      </article>`;
+  }
+
+  /* =====================================================================
+     DETALHES DO PRODUTO
+     ===================================================================== */
+  function abrirDetalhe(id) {
+    const p = produtos.find(x => x.id === id);
+    if (!p) return;
+
+    galeriaAtual = p.midia && p.midia.length ? p.midia : [{ tipo: "imagem", url: p.imagem }];
+    const temNota = Number(p.nota) > 0;
+
+    const specs = Object.entries(p.especificacoes || {}).map(([k, v]) => `
+      <div class="flex justify-between gap-4 py-2.5 border-b border-border text-sm">
+        <span class="text-muted">${escapar(k)}</span><span class="font-medium text-right">${escapar(v)}</span>
+      </div>`).join("");
+
+    const lista = (arr, icone, cor) => (arr || []).map(item => `
+      <li class="flex gap-2 text-sm"><i data-lucide="${icone}" class="h-4 w-4 mt-0.5 shrink-0 ${cor}"></i><span>${escapar(item)}</span></li>`).join("");
+
+    const temProsContras = (p.pros && p.pros.length) || (p.contras && p.contras.length);
+
+    const avaliacoes = (p.avaliacoes || []).map(a => `
+      <div class="rounded-xl border border-border bg-card p-4">
+        <div class="flex items-center justify-between text-sm mb-1">
+          <span class="font-semibold">${escapar(a.autor)}</span>
+          <span class="text-xs text-muted">${escapar(a.data)}</span>
+        </div>
+        <div class="text-sm mb-2">${estrelas(a.nota)}</div>
+        <p class="text-sm text-muted leading-relaxed">${escapar(a.comentario)}</p>
+      </div>`).join("");
+
+    document.getElementById("conteudoDetalhe").innerHTML = `
+      <div class="grid gap-8 md:grid-cols-2">
+        <div>
+          <div id="midiaPrincipal" class="flex aspect-square items-center justify-center overflow-hidden rounded-2xl border border-border bg-white"></div>
+          <div class="mt-3 flex gap-2 overflow-x-auto scrollbar-hide">
+            ${galeriaAtual.map((m, i) => `
+              <button onclick="trocarMidia(${i})" data-thumb="${i}"
+                class="h-16 w-16 shrink-0 overflow-hidden rounded-lg border-2 bg-white flex items-center justify-center ${i === 0 ? "border-neon" : "border-border"}">
+                ${m.tipo === "video"
+                  ? `<i data-lucide="play-circle" class="h-6 w-6 text-neon"></i>`
+                  : `<img src="${escapar(m.url)}" class="h-full w-full object-contain" alt="" />`}
+              </button>`).join("")}
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <span class="text-xs font-semibold uppercase tracking-wider text-neon">${escapar(p.categoria)}</span>
+          <h2 class="font-display text-2xl font-extrabold leading-tight">${escapar(p.titulo)}</h2>
+          ${temNota ? `
+          <div class="flex items-center gap-2 text-sm">
+            ${estrelas(p.nota)}
+            <span class="text-muted">${Number(p.nota).toFixed(1)} · ${(p.totalAvaliacoes || 0).toLocaleString("pt-BR")} avaliações</span>
+          </div>` : ""}
+          <a href="${escapar(p.linkAfiliado)}" target="_blank" rel="nofollow sponsored"
+            class="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-[#f97316] hover:bg-[#ea580c] px-6 py-3.5 font-bold text-white transition shadow-lg shadow-orange-500/20">
+            <i data-lucide="shopping-cart" class="h-5 w-5"></i> Comprar na Amazon
+          </a>
+          <p class="text-xs text-muted text-center">Preço e disponibilidade atualizados na Amazon.</p>
+        </div>
+      </div>
+
+      <section class="mt-10">
+        <h3 class="font-display text-lg font-bold mb-3">Descrição</h3>
+        <p class="text-sm text-muted leading-relaxed whitespace-pre-line">${escapar(p.descricao)}</p>
+      </section>
+
+      ${specs ? `
+      <section class="mt-10">
+        <h3 class="font-display text-lg font-bold mb-3">Especificações Técnicas</h3>
+        <div class="rounded-xl border border-border bg-card px-5">${specs}</div>
+      </section>` : ""}
+
+      ${temProsContras ? `
+      <section class="mt-10 grid gap-6 sm:grid-cols-2">
+        ${p.pros && p.pros.length ? `
+        <div class="rounded-xl border border-neon/50 bg-neon-soft p-5">
+          <h3 class="font-bold mb-3 text-neon">Prós</h3>
+          <ul class="space-y-2">${lista(p.pros, "check", "text-neon")}</ul>
+        </div>` : ""}
+        ${p.contras && p.contras.length ? `
+        <div class="rounded-xl border border-border bg-card p-5">
+          <h3 class="font-bold mb-3 text-muted">Contras</h3>
+          <ul class="space-y-2">${lista(p.contras, "x", "text-red-500")}</ul>
+        </div>` : ""}
+      </section>` : ""}
+
+      ${avaliacoes ? `
+      <section class="mt-10">
+        <h3 class="font-display text-lg font-bold mb-3">Avaliações de Compradores</h3>
+        <div class="grid gap-4 md:grid-cols-2">${avaliacoes}</div>
+      </section>` : ""}
+
+      <div class="mt-10 text-center">
+        <a href="${escapar(p.linkAfiliado)}" target="_blank" rel="nofollow sponsored"
+          class="inline-flex items-center gap-2 rounded-xl bg-[#f97316] hover:bg-[#ea580c] px-8 py-3.5 font-bold text-white transition">
+          <i data-lucide="shopping-cart" class="h-5 w-5"></i> Comprar na Amazon
+        </a>
+      </div>
+    `;
+
+    trocarMidia(0);
+    abrirModal("modalDetalhe");
+  }
+
+  function trocarMidia(i) {
+    const m = galeriaAtual[i];
+    const alvo = document.getElementById("midiaPrincipal");
+    if (!m || !alvo) return;
+
+    if (m.tipo === "video") {
+      const ehArquivo = /\.(mp4|webm|ogg)(\?.*)?$/i.test(m.url);
+      alvo.innerHTML = ehArquivo
+        ? `<video src="${escapar(m.url)}" controls class="h-full w-full object-contain bg-black"></video>`
+        : `<iframe src="${escapar(m.url)}" class="h-full w-full" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+    } else {
+      alvo.innerHTML = `<img src="${escapar(m.url)}" alt="" class="max-h-full max-w-full object-contain p-4" />`;
+    }
+
+    document.querySelectorAll("[data-thumb]").forEach(b => {
+      const ativo = Number(b.dataset.thumb) === i;
+      b.classList.toggle("border-neon", ativo);
+      b.classList.toggle("border-border", !ativo);
+    });
+    refreshIcons();
+  }
+
+  /* =====================================================================
+     MODAIS
+     ===================================================================== */
+  function abrirModal(id) {
+    const m = document.getElementById(id);
+    m.classList.remove("hidden");
+    m.classList.add("flex");
+    document.body.style.overflow = "hidden";
+    refreshIcons();
+  }
+  function fecharModal(id) {
+    const m = document.getElementById(id);
+    m.classList.add("hidden");
+    m.classList.remove("flex");
+    document.body.style.overflow = "";
+  }
+  document.querySelectorAll(".modal-bg").forEach(m => {
+    m.addEventListener("click", e => { if (e.target === m) fecharModal(m.id); });
+  });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") document.querySelectorAll(".modal-bg").forEach(m => fecharModal(m.id));
+  });
+
+  /* =====================================================================
+     TEXTOS LEGAIS (modelos genéricos; revisar antes de publicar)
+     ===================================================================== */
+  const TEXTOS_LEGAIS = {
+    privacidade: {
+      titulo: "Política de Privacidade",
+      corpo: `
+        <p>A GamaMaster Shop respeita a sua privacidade. Esta política descreve como tratamos as informações quando você navega neste site.</p>
+        <p><strong class="text-text">1. Dados coletados.</strong> Não exigimos cadastro para navegar. Podem ser coletados dados técnicos de navegação, como tipo de navegador, páginas acessadas e endereço IP, de forma anonimizada, para fins de segurança e melhoria da experiência.</p>
+        <p><strong class="text-text">2. Cookies.</strong> Utilizamos cookies e armazenamento local para preferências, como o tema claro ou escuro, e para análise de acessos.</p>
+        <p><strong class="text-text">3. Links de afiliados.</strong> Ao clicar em botões de compra, você é direcionado à Amazon. A Amazon e seus parceiros podem coletar dados conforme as políticas próprias de privacidade.</p>
+        <p><strong class="text-text">4. Compartilhamento.</strong> Não vendemos nem alugamos dados pessoais a terceiros.</p>
+        <p><strong class="text-text">5. Seus direitos.</strong> Você pode solicitar acesso, correção ou exclusão de seus dados pelo canal de contato indicado neste site.</p>
+        <p><strong class="text-text">6. Atualizações.</strong> Esta política pode ser atualizada a qualquer momento. A versão vigente estará sempre disponível aqui.</p>`
+    },
+    termos: {
+      titulo: "Termos de Uso",
+      corpo: `
+        <p>Ao acessar a GamaMaster Shop, você concorda com os termos abaixo.</p>
+        <p><strong class="text-text">1. Natureza do site.</strong> A GamaMaster Shop é uma vitrine de produtos com links de afiliados. Não somos vendedores dos produtos exibidos.</p>
+        <p><strong class="text-text">2. Preços e disponibilidade.</strong> Preços, frete, prazos e estoque são definidos exclusivamente pela Amazon e podem mudar a qualquer momento.</p>
+        <p><strong class="text-text">3. Compra.</strong> Toda transação é realizada no site da Amazon, sob os termos de uso e a política de devolução da própria Amazon.</p>
+        <p><strong class="text-text">4. Conteúdo.</strong> Especificações e comentários exibidos são baseados em informações públicas dos produtos e podem não refletir a configuração atual.</p>
+        <p><strong class="text-text">5. Propriedade intelectual.</strong> Marcas, logotipos e imagens de produtos pertencem a seus respectivos titulares.</p>
+        <p><strong class="text-text">6. Limitação de responsabilidade.</strong> Não nos responsabilizamos por indisponibilidade do site, erros de informação ou decisões de compra tomadas pelo usuário.</p>
+        <p><strong class="text-text">7. Foro.</strong> Estes termos são regidos pelas leis brasileiras.</p>`
+    }
+  };
+
+  function abrirLegal(tipo) {
+    const t = TEXTOS_LEGAIS[tipo];
+    document.getElementById("conteudoLegal").innerHTML =
+      `<h2 class="font-display text-xl font-extrabold text-text mb-4">${t.titulo}</h2>${t.corpo}`;
+    abrirModal("modalLegal");
+  }
+
+  /* =====================================================================
+     INICIALIZAÇÃO
+     ===================================================================== */
+  document.getElementById("ano").textContent = new Date().getFullYear();
+  document.getElementById("linkAppAfiliado").href = LINK_APP_AFILIADO;
+
+  let temaSalvo = "dark";
+  try { temaSalvo = localStorage.getItem("gama-tema") || "dark"; } catch (e) {}
+  aplicarTema(temaSalvo);
+  renderFiltros();
+  renderGrid();
+  refreshIcons();
+</script>
+</body>
+</html>
