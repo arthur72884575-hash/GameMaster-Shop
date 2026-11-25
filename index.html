@@ -161,7 +161,7 @@
       </div>
       <h2 class="font-display text-xl font-extrabold">Compre com segurança</h2>
       <p class="text-muted text-sm mt-2 mb-6">
-        Você será direcionado à Amazon para ver preço, frete e disponibilidade atualizados.
+        Escolha a loja. Você será direcionado para ver preço, frete e disponibilidade atualizados.
       </p>
 
       <!--
@@ -169,8 +169,12 @@
         Ele já está configurado na constante LINK_APP_AFILIADO, no script abaixo.
       -->
       <a id="linkAppAfiliado" href="#" target="_blank" rel="nofollow sponsored"
-        class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#f97316] hover:bg-[#ea580c] text-white font-bold py-3.5 transition shadow-lg shadow-orange-500/20">
+        class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#1e3a8a] hover:bg-[#1e40af] text-white font-bold py-3.5 transition shadow-lg shadow-blue-900/30">
         <i data-lucide="external-link" class="h-5 w-5"></i> Comprar na Amazon
+      </a>
+      <a href="https://www.mercadolivre.com.br" target="_blank" rel="noopener"
+        class="mt-3 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#ffe600] hover:bg-[#f5dc00] text-black font-bold py-3.5 transition">
+        <i data-lucide="shopping-bag" class="h-5 w-5"></i> Ir para o Mercado Livre
       </a>
     </div>
   </div>
@@ -212,7 +216,8 @@
      CONFIGURAÇÕES GERAIS
      ===================================================================== */
   // Link de afiliado do botão "App"
-  const LINK_APP_AFILIADO = "https://link.amazon/B0iP2ZnDB";
+  // Página principal da Amazon (sem link de afiliado)
+  const LINK_APP_AFILIADO = "https://www.amazon.com.br";
 
   const CATEGORIAS = ["Todos", "Gabinetes", "Hardware", "Periféricos", "Monitores"];
 
@@ -415,6 +420,83 @@
     linkAfiliado: "https://link.amazon/B0jcwSdkH"
   });
 
+  produtos.push({
+    id: 6,
+    titulo: "Mouse Pad Gamer Profissional Antiderrapante 70x35 cm Mapa Mundi",
+    categoria: "Periféricos",
+    destaque: "",
+    imagem: "https://i.ibb.co/h1Bt0srs/Captura-de-tela-2026-11-25-105123.png",
+    resumo: "Mouse pad de borracha 70 x 35 cm, com superfície suave, base antiderrapante e costura reforçada. Disponível em três cores.",
+    descricao: "Mouse pad gamer e profissional de 70 x 35 cm, com superfície suave e uniforme para movimentos precisos. A base antiderrapante evita deslizamentos, mesmo em movimentos rápidos. O material é durável e a superfície é agradável ao toque, para longas horas de uso. As bordas têm costura reforçada, que evita desfiamentos. É compatível com mouses ópticos, a laser e wireless.",
+    especificacoes: {
+      "Marca": "Genérico",
+      "Material": "Borracha",
+      "Tamanho": "70 x 35 cm",
+      "Peso": "150 g",
+      "Compatibilidade": "Mouses ópticos, a laser e wireless"
+    },
+    pros: [
+      "Superfície suave e uniforme para movimentos precisos",
+      "Base antiderrapante",
+      "Material durável e resistente",
+      "Costura reforçada nas bordas",
+      "Compatível com mouses ópticos, a laser e wireless"
+    ],
+    contras: [],
+    variacoes: [
+      {
+        nome: "Colorido",
+        midia: [{ tipo: "imagem", url: "https://i.ibb.co/h1Bt0srs/Captura-de-tela-2026-11-25-105123.png" }]
+      },
+      {
+        nome: "Preto",
+        midia: [{ tipo: "imagem", url: "https://i.ibb.co/Dgmhr5rN/Captura-de-tela-2026-11-25-105255.png" }]
+      },
+      {
+        nome: "Marrom",
+        midia: [{ tipo: "imagem", url: "https://i.ibb.co/pjMysV3w/Captura-de-tela-2026-11-25-105429.png" }]
+      }
+    ],
+    avaliacoes: [],
+    linkAfiliado: "https://link.amazon/B08joMULo"
+  });
+
+  produtos.push({
+    id: 7,
+    titulo: "GameSir G7 SE Controle com Fio para PC, Xbox One e Xbox Series X|S, Joysticks e Gatilhos Hall",
+    categoria: "Periféricos",
+    destaque: "",
+    imagem: "https://i.ibb.co/8ndJrRS6/Captura-de-tela-2026-11-25-115609.png",
+    resumo: "Controle com fio para PC, Xbox One e Xbox Series X|S, com joysticks e gatilhos Hall, duas teclas traseiras e saída de áudio de 3,5 mm.",
+    descricao: "Controle com fio GameSir G7 SE, compatível com Xbox Series X|S, Xbox One X|S e PC com Windows 10 ou superior, incluindo jogos da Steam. Os joysticks e gatilhos Hall oferecem precisão e maior vida útil. A conexão USB é com fio e removível, e funciona na hora, sem drivers adicionais. Possui duas teclas traseiras personalizáveis, uma saída de áudio de 3,5 mm para fones de ouvido e empunhadura ergonômica com textura antiderrapante.",
+    especificacoes: {
+      "Marca": "GameSir",
+      "Modelo": "G7 SE",
+      "Compatibilidade": "Xbox Series X|S, Xbox One X|S e PC (Windows 10 ou superior, Steam)",
+      "Tipo de joystick": "Hall",
+      "Tipo de gatilho": "Hall",
+      "Conexão": "USB com fio (removível)",
+      "Saída de áudio": "3,5 mm",
+      "Teclas traseiras": "2 personalizáveis",
+      "Drivers": "Não necessários (plug and play)"
+    },
+    pros: [
+      "Joysticks e gatilhos Hall para maior precisão e longa vida útil",
+      "Compatível com Xbox Series X|S, Xbox One e PC",
+      "Plug and play, sem drivers adicionais",
+      "Duas teclas traseiras personalizáveis",
+      "Saída de áudio de 3,5 mm para fones de ouvido",
+      "Empunhadura ergonômica antiderrapante"
+    ],
+    contras: [],
+    midia: [
+      { tipo: "imagem", url: "https://i.ibb.co/8ndJrRS6/Captura-de-tela-2026-11-25-115609.png" }
+    ],
+    avaliacoes: [],
+    linkAfiliado: "https://link.amazon/B04RBAMgz",
+    linkMercadoLivre: "https://meli.la/1mhudy6"
+  });
+
   /*
   ─── MODELO DE PRODUTO (copie, descomente e preencha) ───────────────────
 
@@ -562,8 +644,8 @@
           </div>` : ""}
           <p class="text-sm text-muted line-clamp-2">${escapar(p.resumo)}</p>
 
-          <span class="mt-auto pt-3 inline-flex items-center justify-center gap-2 rounded-xl bg-[#f97316] px-4 py-2.5 text-sm font-bold text-white">
-            <i data-lucide="tag" class="h-4 w-4"></i> Ver Preço na Amazon
+          <span class="mt-auto pt-3 inline-flex items-center justify-center gap-2 rounded-xl bg-[#86efac] hover:bg-[#4ade80] hover:shadow-[0_0_15px_-3px_#4ade80] px-4 py-2.5 text-sm font-bold text-black cursor-pointer transition">
+            <i data-lucide="tag" class="h-4 w-4"></i> Ver Ofertas
           </span>
         </div>
       </article>`;
@@ -572,14 +654,38 @@
   /* =====================================================================
      DETALHES DO PRODUTO
      ===================================================================== */
-  function abrirDetalhe(id) {
+  // Gera os botões de compra conforme os links cadastrados no produto
+  // linkAfiliado = link Amazon | linkMercadoLivre = link Mercado Livre (opcional)
+  function botoesCompra(p, classe) {
+    let html = "";
+    if (p.linkAfiliado) {
+      html += `<a href="${escapar(p.linkAfiliado)}" target="_blank" rel="nofollow sponsored" class="${classe}">
+        <i data-lucide="shopping-cart" class="h-5 w-5"></i> Comprar na Amazon</a>`;
+    }
+    if (p.linkMercadoLivre) {
+      html += `<a href="${escapar(p.linkMercadoLivre)}" target="_blank" rel="nofollow sponsored" class="${classe.replace("bg-[#1e3a8a] hover:bg-[#1e40af]", "bg-[#ffe600] hover:bg-[#f5dc00]").replace("text-white", "text-black")}">
+        <i data-lucide="shopping-bag" class="h-5 w-5"></i> Comprar no Mercado Livre</a>`;
+    }
+    return html;
+  }
+
+  function abrirDetalhe(id, vi = 0) {
     const p = produtos.find(x => x.id === id);
     if (!p) return;
 
-    galeriaAtual = p.midia && p.midia.length ? p.midia : [{ tipo: "imagem", url: p.imagem }];
+    // Produto com variações de cor: troca foto e cor ao clicar no botão
+    const variacao = p.variacoes ? p.variacoes[vi] : null;
+    // Para produtos com cores, a galeria mostra uma foto por cor
+    galeriaAtual = p.variacoes
+      ? p.variacoes.map(v => v.midia[0])
+      : (p.midia && p.midia.length ? p.midia : [{ tipo: "imagem", url: p.imagem }]);
     const temNota = Number(p.nota) > 0;
 
-    const specs = Object.entries(p.especificacoes || {}).map(([k, v]) => `
+    const especs = { ...(p.especificacoes || {}) };
+    if (variacao) especs["Cor"] = variacao.nome;
+    const swatches = p.variacoes ? `<div class="flex flex-wrap gap-2 mt-1">${p.variacoes.map((v, i) => `<button onclick="abrirDetalhe(${p.id}, ${i})" class="px-4 py-1.5 rounded-full text-sm font-medium border transition ${i === vi ? "bg-neon border-neon text-black" : "border-border bg-card text-muted hover:border-neon"}">${escapar(v.nome)}</button>`).join("")}</div>` : "";
+
+    const specs = Object.entries(especs).map(([k, v]) => `
       <div class="flex justify-between gap-4 py-2.5 border-b border-border text-sm">
         <span class="text-muted">${escapar(k)}</span><span class="font-medium text-right">${escapar(v)}</span>
       </div>`).join("");
@@ -605,7 +711,7 @@
           <div id="midiaPrincipal" class="flex aspect-square items-center justify-center overflow-hidden rounded-2xl border border-border bg-white"></div>
           <div class="mt-3 flex gap-2 overflow-x-auto scrollbar-hide">
             ${galeriaAtual.map((m, i) => `
-              <button onclick="trocarMidia(${i})" data-thumb="${i}"
+              <button onclick="${p.variacoes ? `abrirDetalhe(${p.id}, ${i})` : `trocarMidia(${i})`}" data-thumb="${i}"
                 class="h-16 w-16 shrink-0 overflow-hidden rounded-lg border-2 bg-white flex items-center justify-center ${i === 0 ? "border-neon" : "border-border"}">
                 ${m.tipo === "video"
                   ? `<i data-lucide="play-circle" class="h-6 w-6 text-neon"></i>`
@@ -622,17 +728,14 @@
             ${estrelas(p.nota)}
             <span class="text-muted">${Number(p.nota).toFixed(1)} · ${(p.totalAvaliacoes || 0).toLocaleString("pt-BR")} avaliações</span>
           </div>` : ""}
-          <a href="${escapar(p.linkAfiliado)}" target="_blank" rel="nofollow sponsored"
-            class="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-[#f97316] hover:bg-[#ea580c] px-6 py-3.5 font-bold text-white transition shadow-lg shadow-orange-500/20">
-            <i data-lucide="shopping-cart" class="h-5 w-5"></i> Comprar na Amazon
-          </a>
+          <div class="mt-2 flex flex-col gap-2">${botoesCompra(p, "inline-flex items-center justify-center gap-2 rounded-xl bg-[#1e3a8a] hover:bg-[#1e40af] px-6 py-3.5 font-bold text-white transition shadow-lg shadow-blue-900/30")}</div>
           <p class="text-xs text-muted text-center">Preço e disponibilidade atualizados na Amazon.</p>
         </div>
       </div>
 
       <section class="mt-10">
         <h3 class="font-display text-lg font-bold mb-3">Descrição</h3>
-        <p class="text-sm text-muted leading-relaxed whitespace-pre-line">${escapar(p.descricao)}</p>
+        <p class="text-sm text-muted leading-relaxed whitespace-pre-line">${variacao ? `<strong class="text-text">Cor: ${escapar(variacao.nome)}.</strong> ` : ""}${escapar(p.descricao)}</p>
       </section>
 
       ${specs ? `
@@ -662,14 +765,11 @@
       </section>` : ""}
 
       <div class="mt-10 text-center">
-        <a href="${escapar(p.linkAfiliado)}" target="_blank" rel="nofollow sponsored"
-          class="inline-flex items-center gap-2 rounded-xl bg-[#f97316] hover:bg-[#ea580c] px-8 py-3.5 font-bold text-white transition">
-          <i data-lucide="shopping-cart" class="h-5 w-5"></i> Comprar na Amazon
-        </a>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">${botoesCompra(p, "inline-flex items-center justify-center gap-2 rounded-xl bg-[#1e3a8a] hover:bg-[#1e40af] px-8 py-3.5 font-bold text-white transition")}</div>
       </div>
     `;
 
-    trocarMidia(0);
+    trocarMidia(p.variacoes ? vi : 0);
     abrirModal("modalDetalhe");
   }
 
