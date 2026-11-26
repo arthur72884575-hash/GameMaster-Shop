@@ -176,6 +176,10 @@
         class="mt-3 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#ffe600] hover:bg-[#f5dc00] text-black font-bold py-3.5 transition">
         <i data-lucide="shopping-bag" class="h-5 w-5"></i> Ir para o Mercado Livre
       </a>
+      <a href="https://shopee.com.br" target="_blank" rel="noopener"
+        class="mt-3 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#f97316] hover:bg-[#ea580c] text-white font-bold py-3.5 transition">
+        <i data-lucide="shopping-bag" class="h-5 w-5"></i> Ir para a Shopee
+      </a>
     </div>
   </div>
 
@@ -497,6 +501,44 @@
     linkMercadoLivre: "https://meli.la/1mhudy6"
   });
 
+  produtos.push({
+    id: 8,
+    titulo: "Gabinete Gamer Hayom GB1796 Mid Tower Preto Micro-ATX e Mini-ITX",
+    categoria: "Gabinetes",
+    destaque: "",
+    imagem: "https://i.ibb.co/8nr9Y4NQ/Captura-de-tela-2026-11-26-102834.png",
+    resumo: "Gabinete mid tower preto para placas Micro-ATX e Mini-ITX, com suporte a placa de vídeo de até 305 mm e 4 fans inclusos.",
+    descricao: "Gabinete gamer compacto Hayom GB1796, no formato mid tower. Compatível com placas-mãe Micro-ATX e Mini-ITX (17 x 19 cm), suporta placas de vídeo de até 305 mm e possui 4 slots PCI-E disponíveis. O painel frontal tem USB 3.0, USB 2.0 e áudio. Aceita até 7 fans, sendo 4 já inclusos, para boa refrigeração. Dimensões: 340 x 270 x 325 mm.",
+    especificacoes: {
+      "Marca": "Hayom",
+      "Modelo": "GB1796",
+      "Tipo de estojo": "Mid Tower",
+      "Cor": "Preto",
+      "Compatibilidade da placa-mãe": "Micro-ATX e Mini-ITX (17 x 19 cm)",
+      "Placa de vídeo": "Até 305 mm",
+      "Slots PCI-E": "4 disponíveis",
+      "Fans": "Suporta até 7, sendo 4 inclusos",
+      "Painel frontal": "USB 3.0, USB 2.0 e áudio",
+      "Dimensões": "340 x 270 x 325 mm",
+      "Indicado para": "Jogos e uso comercial"
+    },
+    pros: [
+      "Suporta placa de vídeo de até 305 mm",
+      "4 fans inclusos e espaço para até 7",
+      "Painel frontal com USB 3.0, USB 2.0 e áudio",
+      "Design gamer compacto"
+    ],
+    contras: [],
+    midia: [
+      { tipo: "imagem", url: "https://i.ibb.co/8nr9Y4NQ/Captura-de-tela-2026-11-26-102834.png" },
+      { tipo: "imagem", url: "https://i.ibb.co/rGP57rjd/Captura-de-tela-2026-11-26-102911.png" }
+    ],
+    avaliacoes: [],
+    linkAfiliado: "https://link.amazon/B00TZ287C",
+    linkMercadoLivre: "https://meli.la/2TnSn2R",
+    linkShopee: "https://s.shopee.com.br/9pgBnuqXQA"
+  });
+
   /*
   ─── MODELO DE PRODUTO (copie, descomente e preencha) ───────────────────
 
@@ -665,6 +707,10 @@
     if (p.linkMercadoLivre) {
       html += `<a href="${escapar(p.linkMercadoLivre)}" target="_blank" rel="nofollow sponsored" class="${classe.replace("bg-[#1e3a8a] hover:bg-[#1e40af]", "bg-[#ffe600] hover:bg-[#f5dc00]").replace("text-white", "text-black")}">
         <i data-lucide="shopping-bag" class="h-5 w-5"></i> Comprar no Mercado Livre</a>`;
+    }
+    if (p.linkShopee) {
+      html += `<a href="${escapar(p.linkShopee)}" target="_blank" rel="nofollow sponsored" class="${classe.replace("bg-[#1e3a8a] hover:bg-[#1e40af]", "bg-[#f97316] hover:bg-[#ea580c]")}">
+        <i data-lucide="shopping-bag" class="h-5 w-5"></i> Comprar na Shopee</a>`;
     }
     return html;
   }
